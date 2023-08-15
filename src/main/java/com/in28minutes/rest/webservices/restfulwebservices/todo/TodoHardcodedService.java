@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import net.bytebuddy.asm.Advice.Return;
+
 
 @Service
 public class TodoHardcodedService {
@@ -16,7 +18,7 @@ public class TodoHardcodedService {
 	
 	static {
 		todos.add(new Todo(++idCounter, "in28minutes", "Learn to Dance", new Date(), false ));
-		todos.add(new Todo(++idCounter, "in28minutes", "Learn Micro Services", new Date(), false ));
+		todos.add(new Todo(++idCounter, "in28minutes", "Learn Micro Services 2", new Date(), false ));
 		todos.add(new Todo(++idCounter, "in28minutes", "Learn Angular", new Date(), false ));
 		
 	}
@@ -26,6 +28,26 @@ public class TodoHardcodedService {
 		
 	}
 	
-	
+	public Todo deleteById(long id) {
+		Todo todo = findById(id);
+		
+		if(todo == null) return null;
+		
+		if(todos.remove(todo)) {
+			return todo;
+		}
+		
+		return null;
+	}
 
+	public Todo findById(long id) {
+		for(Todo todo:todos) {
+			if(todo.getId() == id) {
+				return todo;
+			}
+		}
+		
+		return null;
+	}
+	
 }
