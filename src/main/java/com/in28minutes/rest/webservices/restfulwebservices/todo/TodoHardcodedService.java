@@ -7,14 +7,14 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import net.bytebuddy.asm.Advice.Return;
+
 
 
 @Service
 public class TodoHardcodedService {
 	
 	private static List<Todo> todos = new ArrayList<>();
-	private static int idCounter = 0;
+	private static long idCounter = 0;
 	
 	static {
 		todos.add(new Todo(++idCounter, "in28minutes", "Learn to Dance", new Date(), false ));
@@ -25,6 +25,18 @@ public class TodoHardcodedService {
 	
 	public List<Todo> findAll(){
 		return todos;
+		
+	}
+	
+	public Todo save(Todo todo) {
+		if(todo.getId()== -1 || todo.getId()==0) {
+			todo.setId(++idCounter);
+			todos.add(todo);	
+		} else {
+			deleteById(todo.getId());
+			todos.add(todo);
+		}
+		return todo;
 		
 	}
 	
